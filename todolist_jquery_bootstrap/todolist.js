@@ -1,9 +1,16 @@
 $(function () {
 
   let tasks = []
-  if (localStorage.tasks) {
-    tasks = localStorage.tasks.split(',')
-  }
+  // if (localStorage.tasks) {
+  //   tasks = localStorage.tasks.split(',')
+  // }
+  $.get('http://localhost:4444/', (data) => {
+    if (data) {
+      tasks = data
+      showTasks()
+
+    }
+  })
 
   function showTasks() {
     $('#tasklist').empty()
@@ -20,8 +27,8 @@ $(function () {
   function addTask() {
     tasks.push($('#newtask').val())
     showTasks()
+    $.get('http://localhost:4444/add?task='+$('#newtask').val(''))
     $('#newtask').val('')
-    localStorage.tasks = tasks
   }
 
   $('#addtask').click(() => {
